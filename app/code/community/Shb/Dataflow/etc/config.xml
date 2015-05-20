@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config>
+	<modules>
+		<Shb_Dataflow>
+			<version>0.0.2</version>
+		</Shb_Dataflow>
+	</modules>
+	<global>
+		<models>
+			<core>
+				<rewrite>
+					<convert>Shb_Dataflow_Model_Convert_Profile_Collection</convert>
+				</rewrite>
+			</core>
+			<shb_dataflow>
+				<class>Shb_Dataflow_Model</class>
+			</shb_dataflow>
+		</models>
+	</global>
+</config>

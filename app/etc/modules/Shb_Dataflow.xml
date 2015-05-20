@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<config>
+	<modules>
+		<Shb_Dataflow>
+			<codePool>community</codePool>
+			<active>true</active>
+			<depends>
+				<Mage_Dataflow/>
+				<Mage_Core/>
+			</depends>
+		</Shb_Dataflow>
+	</modules>
+</config>
