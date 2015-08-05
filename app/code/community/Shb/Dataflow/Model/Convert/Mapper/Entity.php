@@ -16,9 +16,9 @@ class Shb_Dataflow_Model_Convert_Mapper_Entity
 
 		$ids = $export->setBatchId($batch->getId())->getIdCollection();
 
-		$entity_type = $this->getVar('entity_type');
+		$entity_type = $this->getVar('model');
 		if (empty($entity_type)) {
-			Mage::throwException("Undefined 'entity_type'");
+			Mage::throwException("Undefined <em>model</em> type");
 		}
 		$prefix = $this->getVar('prefix', array_pop(explode('/', $entity_type)).'_');
 		$entity_id = $this->getVar('entity_id', "{$prefix}id");

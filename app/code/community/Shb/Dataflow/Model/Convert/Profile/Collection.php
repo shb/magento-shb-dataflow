@@ -3,6 +3,11 @@
 class Shb_Dataflow_Model_Convert_Profile_Collection
 extends Mage_Core_Model_Convert
 {
+    /**
+     * This improved `importProfileXml` method makes possibile to use
+     * any action variable as a map, just putting several `map` elements
+     * inside a `var` element.
+     */
     public function importProfileXml($name)
     {
         if (!$this->_xml) {
