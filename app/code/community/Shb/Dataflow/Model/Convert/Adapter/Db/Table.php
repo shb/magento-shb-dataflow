@@ -45,10 +45,10 @@ extends Mage_Dataflow_Model_Convert_Adapter_Abstract
             {
                 if (!empty($pk) and !empty($data[$pk]))
                 {
-						 // Look for existing row if id column is valorized
-						 $where = $db->quoteInto($db->quoteIdentifier($pk).'=?', $data[$pk]);
+		    // Look for existing row if id column is valorized
+		    $where = $db->quoteInto($db->quoteIdentifier($pk).'=?', $data[$pk]);
                     $oldRow = $db->fetchAll('SELECT * FROM '.$db->quoteIdentifier($table).' WHERE '.$where);
-					}
+		}
                 if (isset($oldRow) and count($oldRow)) {
                     $updated += $db->update($table, $row, $where);
                 } else {

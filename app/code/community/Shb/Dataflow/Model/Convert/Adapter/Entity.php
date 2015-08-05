@@ -3,23 +3,39 @@
 /**
  * Load/save one or more entities of a specified type
  */
-
 class Shb_Dataflow_Model_Convert_Adapter_Entity
-	extends Mage_Eav_Model_Convert_Adapter_Entity
+extends Mage_Eav_Model_Convert_Adapter_Entity
+implements Mage_Dataflow_Model_Convert_Adapter_Interface
 {
+
+	private $_ops = array(
+		'=' => 'eq',
+		'!=' => 'neq',
+		'>' => 'gt',
+		'<' => 'lt',
+		'>=' => 'gteq',
+		'<=' => 'lteq'
+	);
+
 	public function load ()
 	{
-		$entity_type = $this->getVar('entity_type');
-		$map = $this->getVar('map');
-		$model = Mage::getModel($entity_type);
+		$modelName = $this->getVar('model');
+		//$map = $this->getVar('map');
+		$model = Mage::getModel($modelName);
 		$collection = $model->getCollection();
 
 		//TODO: add selections and filters
 		$filter = $this->getVar('filter');
 		if (!empty($filter))
 		{
-			foreach ($filter as $field => $value)
+			foreach ($filter as $field => &$value)
 			{
+				$value = explode(' ', trim($value), 2);
+				if (count($value) == 2) {
+					if (isset($this->_ops[$value[0]]))
+						$value[0] = $this->_ops[$value[0]];
+					$value = array( $value[0] => trim($value[1], "'") );
+				}
 				$collection->addFieldToFilter($field, $value);
 			}
 		}
@@ -28,16 +44,14 @@ class Shb_Dataflow_Model_Convert_Adapter_Entity
 		$export = $batch->getBatchExportModel();
 
 		$count = 0;
-		foreach ($collection as $entity)
-		{
-			$data = $entity->getData();
-			$export->setId(NULL)
-				->setBatchData($data)
-				->save();
-			/*if ($export->getId() && $count < 1)
-				$batch->parseFieldList($data);*/
+		$ids = array();
+		//$collection->addFieldToSelect('entity_id');
+		foreach ($collection as $entity) {
+			$ids[] = $entity->getId();
 			$count++;
 		}
-		$this->addException("Loaded {$count} entities of type '{$entity_type}'");
+		$this->setData($ids);
+
+		$this->addException("Found {$count} entities of type '{$modelName}'");
 	}
 }
